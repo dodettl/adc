@@ -26,7 +26,7 @@ void initADC1(void){
 	GPIOA->MODER |= (3<<2); 			//Analog mode PA1
 	
 	/*Configure ADC1*/
-	RCC->APB2ENR |= (1<<8);		//Enable ADC1 clock 
+	RCC->APB2ENR |= (1<<8);				//Enable ADC1 clock 
 	ADC1->SQR3 = 1;								//Conversion sequence starts at channel 1
 	ADC1->SQR1 = 0; 							//Conversion length 1
 	ADC1->CR2 = 0;								//clear
