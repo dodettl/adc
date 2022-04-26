@@ -27,20 +27,56 @@ Project File Date:  04/12/2022
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-adc.c(24): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+adc.c(11): warning: no previous extern declaration for non-static variable 'result' [-Wmissing-variable-declarations]
+volatile uint16_t result = 0; 
+                  ^
+adc.c(11): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+volatile uint16_t result = 0; 
+         ^
+adc.c(12): warning: no previous extern declaration for non-static variable 'adcFlag' [-Wmissing-variable-declarations]
+volatile int adcFlag = 0; 
+             ^
+adc.c(12): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+volatile int adcFlag = 0; 
+         ^
+adc.c(36): warning: implicit conversion loses integer precision: 'volatile uint16_t' (aka 'volatile unsigned short') to 'int8_t' (aka 'signed char') [-Wimplicit-int-conversion]
+                                        sendUSART2(adc[n]);
+                                        ~~~~~~~~~~ ^~~~~~
+adc.c(49): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
         GPIOA->MODER &= ~(3<<0);                //Clear Pin PA0 
                      ~~ ^~~~~~~
-adc.c(52): warning: implicit conversion loses integer precision: 'volatile uint32_t' (aka 'volatile unsigned int') to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
-                result = ADC1->DR;
-                       ~ ~~~~~~^~
-adc.c(83): warning: no newline at end of file [-Wnewline-eof]
+adc.c(73): warning: implicit conversion loses integer precision: 'volatile uint32_t' (aka 'volatile unsigned int') to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
+                adc[i++]= ADC1->DR;
+                        ~ ~~~~~~^~
+adc.c(110): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        USART2->CR1 &= ~(1<<12);                                                                //Word length 
+                    ~~ ^~~~~~~~
+adc.c(125): warning: no newline at end of file [-Wnewline-eof]
 }
  ^
-3 warnings generated.
+adc.c(13): warning: no previous extern declaration for non-static variable 'adc' [-Wmissing-variable-declarations]
+volatile uint16_t adc[LENGTH]; 
+                  ^
+adc.c(13): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+volatile uint16_t adc[LENGTH]; 
+         ^
+adc.c(14): warning: no previous extern declaration for non-static variable 'i' [-Wmissing-variable-declarations]
+volatile int i, n;
+             ^
+adc.c(14): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+volatile int i, n;
+         ^
+adc.c(14): warning: no previous extern declaration for non-static variable 'n' [-Wmissing-variable-declarations]
+volatile int i, n;
+                ^
+adc.c(14): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+volatile int i, n;
+         ^
+10 warnings generated.
 compiling adc.c...
 linking...
-Program Size: Code=656 RO-data=468 RW-data=0 ZI-data=1640  
-".\Objects\adc.axf" - 0 Error(s), 3 Warning(s).
+Program Size: Code=860 RO-data=468 RW-data=0 ZI-data=1680  
+".\Objects\adc.axf" - 0 Error(s), 10 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -66,10 +102,10 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.5.0
 
    * Component: Keil::Device:Startup:2.6.3
-      Source file:   MDK\Device\Source\ARM\STM32F446xx_OPT.s
-      Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f446xx.s
-      Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
+      Source file:   MDK\Device\Source\ARM\STM32F446xx_OPT.s
+      Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
+      Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f446xx.s
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c
 Build Time Elapsed:  00:00:01
 </pre>
