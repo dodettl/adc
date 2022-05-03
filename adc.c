@@ -2,7 +2,8 @@
 #include "string.h"
 #include "stdio.h"
 
-#define LENGTH 20
+#define LENGTH  20
+#define LENGTH2 40
 
 
 void initTIM2(void); 
@@ -12,13 +13,13 @@ void initUSART2(void);
 void sendUSART2(int8_t number);
 
 volatile int16_t adcValue1, adcValue2, adcValue3; 
-volatile uint16_t result = 0; 
-volatile uint8_t adc1[LENGTH]; 
-volatile uint8_t adc2[LENGTH];
+volatile uint16_t adc1[LENGTH]; 
+volatile uint16_t adc2[LENGTH];
+volatile uint8_t sendValue; 
 /* Array for the difference between value adc1 and adc2 */
-volatile int8_t adc3[LENGTH]; 
+volatile int8_t adc3[LENGTH2]; 
 /*Increment variables*/
-volatile int i1, i2, n;
+volatile int i1, i2, i3, n;
 
 int main(void)
 {
@@ -36,25 +37,27 @@ int main(void)
 				for(n = 0; n < (LENGTH - 1); n++)
 				{
 
-					adcValue1 = ((((uint16_t)adc1[n])<<8) | (adc1[n+1]));
-					adcValue2 = ((((uint16_t)adc2[n])<<8) | (adc2[n+1]));
+					adcValue1 = adc1[n]; 
+					adcValue2 = adc2[n];
 					adcValue3 = adcValue2 - adcValue1; 
-					adc3[n] = (adcValue3 >> 8); 
-					adc3[n+1] = adcValue3;
-					
-					//adc3[n] = adc2[n] - adc1[n];
-					//adc3[n+1] = adc2[n+1] - adc1[n+1];
-					sendUSART2(adc2[n]);
-					sendUSART2(adc2[n+1]);
-					sendUSART2(adc1[n]);
-					sendUSART2(adc1[n+1]);
-					sendUSART2(adc3[n]);
-					sendUSART2(adc3[n+1]);
+					adc3[i3] = (adcValue3 >> 8); 
+					adc3[i3+1] = adcValue3;
+					sendValue = (adc2[n] >> 8);
+					sendUSART2(sendValue);
+					sendValue = adc2[n];
+					sendUSART2(sendValue);
+					sendValue = (adc1[n] >> 8);
+					sendUSART2(sendValue);
+					sendValue = adc1[n];
+					sendUSART2(sendValue);
+					sendUSART2(adc3[i3]);
+					sendUSART2(adc3[++i3]);
 					/* In order to skip a byte an extra increment is made at the end of the for loop */
-					n++;
+					i3++;
 				}
 				i1 = 0;
-				i2 = 0; 
+				i2 = 0;
+				i3 = 0;				
 				memset(adc1, 0, sizeof(adc1));
 				memset(adc2, 0, sizeof(adc2)); 
 				memset(adc3, 0, sizeof(adc3));
@@ -71,14 +74,12 @@ void TIM2_IRQHandler(void){
 		if(GPIOA->ODR && (0x01))   					 //Rising edge 
 		{
 			/* Low values */
-			adc1[i1++]= (ADC1->DR >> 8);			//The highest 4 bits of the 12 bit adc value are saved in the array
-			adc1[i1++]=  ADC1->DR;
+			adc1[i1++]= ADC1->DR;
 		}
 		else
 		{
 			/* High values */
-			adc2[i2++] = (ADC1->DR >> 8); 
-			adc2[i2++]=   ADC1->DR;
+			adc2[i2++] = ADC1->DR; 
 		}
 	}
 	ADC1->CR2 |= (1<<30);								//Starts the adc conversion 
