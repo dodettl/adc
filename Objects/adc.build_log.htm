@@ -27,146 +27,7 @@ Project File Date:  04/12/2022
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-adc.c(13): warning: no previous extern declaration for non-static variable 'result' [-Wmissing-variable-declarations]
-volatile uint16_t result = 0; 
-                  ^
-adc.c(13): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile uint16_t result = 0; 
-         ^
-adc.c(37): warning: implicit conversion changes signedness: 'volatile uint8_t' (aka 'volatile unsigned char') to 'int8_t' (aka 'signed char') [-Wsign-conversion]
-                                        sendUSART2(adc1[n]);
-                                        ~~~~~~~~~~ ^~~~~~~
-adc.c(38): warning: implicit conversion changes signedness: 'volatile uint8_t' (aka 'volatile unsigned char') to 'int8_t' (aka 'signed char') [-Wsign-conversion]
-                                        sendUSART2(adc1[n+1]);
-                                        ~~~~~~~~~~ ^~~~~~~~~
-adc.c(39): warning: implicit conversion changes signedness: 'volatile uint8_t' (aka 'volatile unsigned char') to 'int8_t' (aka 'signed char') [-Wsign-conversion]
-                                        sendUSART2(adc2[n]);
-                                        ~~~~~~~~~~ ^~~~~~~
-adc.c(40): warning: implicit conversion changes signedness: 'volatile uint8_t' (aka 'volatile unsigned char') to 'int8_t' (aka 'signed char') [-Wsign-conversion]
-                                        sendUSART2(adc2[n+1]);
-                                        ~~~~~~~~~~ ^~~~~~~~~
-adc.c(41): warning: implicit conversion changes signedness: 'int' to 'int8_t' (aka 'signed char') [-Wsign-conversion]
-                                        adc3[n] = adc2[n] - adc1[n];
-                                                ~ ~~~~~~~~^~~~~~~~~
-adc.c(42): warning: implicit conversion changes signedness: 'int' to 'int8_t' (aka 'signed char') [-Wsign-conversion]
-                                        adc3[n+1] = adc2[n+1] - adc1[n+1];
-                                                  ~ ~~~~~~~~~~^~~~~~~~~~~
-adc.c(46): warning: variable 'n' is incremented both in the loop header and in the loop body [-Wfor-loop-analysis]
-                                        n++;
-                                        ^
-adc.c(35): note: incremented here
-                                for(n = 0; n < (LENGTH - 1); n++)
-                                                             ^
-adc.c(51): warning: passing 'volatile uint8_t [20]' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
-                                memset(adc1, 0, sizeof(adc1));
-                                       ^~~~
-C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h(321): note: passing argument to parameter here
-extern _ARMABI void *memset(void * /*s*/, int /*c*/, size_t /*n*/) __attribute__((__nonnull__(1)));
-                                        ^
-adc.c(52): warning: passing 'volatile uint8_t [20]' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
-                                memset(adc2, 0, sizeof(adc2)); 
-                                       ^~~~
-C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h(321): note: passing argument to parameter here
-extern _ARMABI void *memset(void * /*s*/, int /*c*/, size_t /*n*/) __attribute__((__nonnull__(1)));
-                                        ^
-adc.c(53): warning: passing 'volatile int8_t [20]' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
-                                memset(adc3, 0, sizeof(adc3));
-                                       ^~~~
-C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h(321): note: passing argument to parameter here
-extern _ARMABI void *memset(void * /*s*/, int /*c*/, size_t /*n*/) __attribute__((__nonnull__(1)));
-                                        ^
-adc.c(71): warning: implicit conversion loses integer precision: 'uint32_t' (aka 'unsigned int') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
-                        adc1[i1++]= (ADC1->DR >> 8);                    //The highest 4 bits of the 12 bit adc value are saved in the array
-                                  ~  ~~~~~~~~~^~~~
-adc.c(72): warning: implicit conversion loses integer precision: 'volatile uint32_t' (aka 'volatile unsigned int') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
-                        adc1[i1++]=  ADC1->DR;
-                                  ~  ~~~~~~^~
-adc.c(78): warning: implicit conversion loses integer precision: 'uint32_t' (aka 'unsigned int') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
-                        adc2[i2++] = (ADC1->DR >> 8); 
-                                   ~  ~~~~~~~~~^~~~
-adc.c(79): warning: implicit conversion loses integer precision: 'volatile uint32_t' (aka 'volatile unsigned int') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
-                        adc2[i2++]=   ADC1->DR;
-                                  ~   ~~~~~~^~
-adc.c(97): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-        GPIOA->MODER &= ~(3<<0);                //Clear Pin PA0 
-                     ~~ ^~~~~~~
-adc.c(146): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-        USART2->CR1 &= ~(1<<12);                                                                //Word length 
-                    ~~ ^~~~~~~~
-adc.c(161): warning: no newline at end of file [-Wnewline-eof]
-}
- ^
-adc.c(14): warning: no previous extern declaration for non-static variable 'adc1' [-Wmissing-variable-declarations]
-volatile uint8_t adc1[LENGTH]; 
-                 ^
-adc.c(14): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile uint8_t adc1[LENGTH]; 
-         ^
-adc.c(15): warning: no previous extern declaration for non-static variable 'adc2' [-Wmissing-variable-declarations]
-volatile uint8_t adc2[LENGTH];
-                 ^
-adc.c(15): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile uint8_t adc2[LENGTH];
-         ^
-adc.c(16): warning: no previous extern declaration for non-static variable 'value1' [-Wmissing-variable-declarations]
-volatile int16_t value1, value2, value3; 
-                 ^
-adc.c(16): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int16_t value1, value2, value3; 
-         ^
-adc.c(16): warning: no previous extern declaration for non-static variable 'value2' [-Wmissing-variable-declarations]
-volatile int16_t value1, value2, value3; 
-                         ^
-adc.c(16): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int16_t value1, value2, value3; 
-         ^
-adc.c(16): warning: no previous extern declaration for non-static variable 'value3' [-Wmissing-variable-declarations]
-volatile int16_t value1, value2, value3; 
-                                 ^
-adc.c(16): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int16_t value1, value2, value3; 
-         ^
-adc.c(18): warning: no previous extern declaration for non-static variable 'adc3' [-Wmissing-variable-declarations]
-volatile int8_t adc3[LENGTH]; 
-                ^
-adc.c(18): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int8_t adc3[LENGTH]; 
-         ^
-adc.c(20): warning: no previous extern declaration for non-static variable 'i1' [-Wmissing-variable-declarations]
-volatile int i1, i2, i3, n, z;
-             ^
-adc.c(20): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int i1, i2, i3, n, z;
-         ^
-adc.c(20): warning: no previous extern declaration for non-static variable 'i2' [-Wmissing-variable-declarations]
-volatile int i1, i2, i3, n, z;
-                 ^
-adc.c(20): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int i1, i2, i3, n, z;
-         ^
-adc.c(20): warning: no previous extern declaration for non-static variable 'i3' [-Wmissing-variable-declarations]
-volatile int i1, i2, i3, n, z;
-                     ^
-adc.c(20): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int i1, i2, i3, n, z;
-         ^
-adc.c(20): warning: no previous extern declaration for non-static variable 'n' [-Wmissing-variable-declarations]
-volatile int i1, i2, i3, n, z;
-                         ^
-adc.c(20): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int i1, i2, i3, n, z;
-         ^
-adc.c(20): warning: no previous extern declaration for non-static variable 'z' [-Wmissing-variable-declarations]
-volatile int i1, i2, i3, n, z;
-                            ^
-adc.c(20): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int i1, i2, i3, n, z;
-         ^
-29 warnings generated.
-compiling adc.c...
-linking...
-Program Size: Code=1128 RO-data=468 RW-data=0 ZI-data=1712  
-".\Objects\adc.axf" - 0 Error(s), 29 Warning(s).
+".\Objects\adc.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -192,12 +53,12 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.5.0
 
    * Component: Keil::Device:Startup:2.6.3
-      Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f446xx.s
-      Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   MDK\Device\Source\ARM\STM32F446xx_OPT.s
+      Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
+      Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f446xx.s
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
