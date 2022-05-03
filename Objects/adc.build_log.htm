@@ -27,137 +27,35 @@ Project File Date:  04/12/2022
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-adc.c(40): warning: implicit conversion changes signedness: 'volatile uint16_t' (aka 'volatile unsigned short') to 'int16_t' (aka 'short') [-Wsign-conversion]
-                                        adcValue1 = adc1[n]; 
-                                                  ~ ^~~~~~~
-adc.c(41): warning: implicit conversion changes signedness: 'volatile uint16_t' (aka 'volatile unsigned short') to 'int16_t' (aka 'short') [-Wsign-conversion]
-                                        adcValue2 = adc2[n];
-                                                  ~ ^~~~~~~
-adc.c(44): warning: implicit conversion loses integer precision: 'volatile int16_t' (aka 'volatile short') to 'int8_t' (aka 'signed char') [-Wimplicit-int-conversion]
-                                        adc3[i3+1] = adcValue3;
-                                                   ~ ^~~~~~~~~
-adc.c(46): warning: implicit conversion changes signedness: 'volatile uint8_t' (aka 'volatile unsigned char') to 'int8_t' (aka 'signed char') [-Wsign-conversion]
-                                        sendUSART2(sendValue);
-                                        ~~~~~~~~~~ ^~~~~~~~~
-adc.c(47): warning: implicit conversion loses integer precision: 'volatile uint16_t' (aka 'volatile unsigned short') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
-                                        sendValue = adc2[n];
-                                                  ~ ^~~~~~~
-adc.c(48): warning: implicit conversion changes signedness: 'volatile uint8_t' (aka 'volatile unsigned char') to 'int8_t' (aka 'signed char') [-Wsign-conversion]
-                                        sendUSART2(sendValue);
-                                        ~~~~~~~~~~ ^~~~~~~~~
-adc.c(50): warning: implicit conversion changes signedness: 'volatile uint8_t' (aka 'volatile unsigned char') to 'int8_t' (aka 'signed char') [-Wsign-conversion]
-                                        sendUSART2(sendValue);
-                                        ~~~~~~~~~~ ^~~~~~~~~
-adc.c(51): warning: implicit conversion loses integer precision: 'volatile uint16_t' (aka 'volatile unsigned short') to 'uint8_t' (aka 'unsigned char') [-Wimplicit-int-conversion]
-                                        sendValue = adc1[n];
-                                                  ~ ^~~~~~~
-adc.c(52): warning: implicit conversion changes signedness: 'volatile uint8_t' (aka 'volatile unsigned char') to 'int8_t' (aka 'signed char') [-Wsign-conversion]
-                                        sendUSART2(sendValue);
-                                        ~~~~~~~~~~ ^~~~~~~~~
-adc.c(61): warning: passing 'volatile uint16_t [20]' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
-                                memset(adc1, 0, sizeof(adc1));
-                                       ^~~~
-C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h(321): note: passing argument to parameter here
-extern _ARMABI void *memset(void * /*s*/, int /*c*/, size_t /*n*/) __attribute__((__nonnull__(1)));
-                                        ^
-adc.c(62): warning: passing 'volatile uint16_t [20]' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
-                                memset(adc2, 0, sizeof(adc2)); 
-                                       ^~~~
-C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h(321): note: passing argument to parameter here
-extern _ARMABI void *memset(void * /*s*/, int /*c*/, size_t /*n*/) __attribute__((__nonnull__(1)));
-                                        ^
-adc.c(63): warning: passing 'volatile int8_t [40]' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
-                                memset(adc3, 0, sizeof(adc3));
-                                       ^~~~
-C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h(321): note: passing argument to parameter here
-extern _ARMABI void *memset(void * /*s*/, int /*c*/, size_t /*n*/) __attribute__((__nonnull__(1)));
-                                        ^
-adc.c(77): warning: implicit conversion loses integer precision: 'volatile uint32_t' (aka 'volatile unsigned int') to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
-                        adc1[i1++]= ADC1->DR;
-                                  ~ ~~~~~~^~
-adc.c(82): warning: implicit conversion loses integer precision: 'volatile uint32_t' (aka 'volatile unsigned int') to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
-                        adc2[i2++] = ADC1->DR; 
-                                   ~ ~~~~~~^~
-adc.c(96): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+adc.c(26): warning: implicit conversion loses integer precision: 'volatile int16_t' (aka 'volatile short') to 'int8_t' (aka 'signed char') [-Wimplicit-int-conversion]
+                        sendUSART2(transmitValue);
+                        ~~~~~~~~~~ ^~~~~~~~~~~~~
+adc.c(39): warning: implicit conversion loses integer precision: 'volatile uint32_t' (aka 'volatile unsigned int') to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
+                adcValue1 = ADC1->DR;
+                          ~ ~~~~~~^~
+adc.c(43): warning: implicit conversion loses integer precision: 'unsigned int' to 'int16_t' (aka 'short') [-Wimplicit-int-conversion]
+                transmitValue = adcValue1 - ADC1->DR;
+                              ~ ~~~~~~~~~~^~~~~~~~~~
+adc.c(58): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
         GPIOA->MODER &= ~(3<<0);                //Clear Pin PA0 
                      ~~ ^~~~~~~
-adc.c(145): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+adc.c(107): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
         USART2->CR1 &= ~(1<<12);                                                                //Word length 
                     ~~ ^~~~~~~~
-adc.c(160): warning: no newline at end of file [-Wnewline-eof]
+adc.c(122): warning: no newline at end of file [-Wnewline-eof]
 }
  ^
-adc.c(15): warning: no previous extern declaration for non-static variable 'adcValue1' [-Wmissing-variable-declarations]
-volatile int16_t adcValue1, adcValue2, adcValue3; 
+adc.c(12): warning: no previous extern declaration for non-static variable 'transmitValue' [-Wmissing-variable-declarations]
+volatile int16_t transmitValue; 
                  ^
-adc.c(15): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int16_t adcValue1, adcValue2, adcValue3; 
+adc.c(12): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+volatile int16_t transmitValue; 
          ^
-adc.c(15): warning: no previous extern declaration for non-static variable 'adcValue2' [-Wmissing-variable-declarations]
-volatile int16_t adcValue1, adcValue2, adcValue3; 
-                            ^
-adc.c(15): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int16_t adcValue1, adcValue2, adcValue3; 
-         ^
-adc.c(15): warning: no previous extern declaration for non-static variable 'adcValue3' [-Wmissing-variable-declarations]
-volatile int16_t adcValue1, adcValue2, adcValue3; 
-                                       ^
-adc.c(15): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int16_t adcValue1, adcValue2, adcValue3; 
-         ^
-adc.c(16): warning: no previous extern declaration for non-static variable 'adc1' [-Wmissing-variable-declarations]
-volatile uint16_t adc1[LENGTH]; 
-                  ^
-adc.c(16): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile uint16_t adc1[LENGTH]; 
-         ^
-adc.c(17): warning: no previous extern declaration for non-static variable 'adc2' [-Wmissing-variable-declarations]
-volatile uint16_t adc2[LENGTH];
-                  ^
-adc.c(17): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile uint16_t adc2[LENGTH];
-         ^
-adc.c(18): warning: no previous extern declaration for non-static variable 'sendValue' [-Wmissing-variable-declarations]
-volatile uint8_t sendValue; 
-                 ^
-adc.c(18): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile uint8_t sendValue; 
-         ^
-adc.c(20): warning: no previous extern declaration for non-static variable 'adc3' [-Wmissing-variable-declarations]
-volatile int8_t adc3[LENGTH2]; 
-                ^
-adc.c(20): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int8_t adc3[LENGTH2]; 
-         ^
-adc.c(22): warning: no previous extern declaration for non-static variable 'i1' [-Wmissing-variable-declarations]
-volatile int i1, i2, i3, n;
-             ^
-adc.c(22): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int i1, i2, i3, n;
-         ^
-adc.c(22): warning: no previous extern declaration for non-static variable 'i2' [-Wmissing-variable-declarations]
-volatile int i1, i2, i3, n;
-                 ^
-adc.c(22): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int i1, i2, i3, n;
-         ^
-adc.c(22): warning: no previous extern declaration for non-static variable 'i3' [-Wmissing-variable-declarations]
-volatile int i1, i2, i3, n;
-                     ^
-adc.c(22): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int i1, i2, i3, n;
-         ^
-adc.c(22): warning: no previous extern declaration for non-static variable 'n' [-Wmissing-variable-declarations]
-volatile int i1, i2, i3, n;
-                         ^
-adc.c(22): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int i1, i2, i3, n;
-         ^
-28 warnings generated.
+7 warnings generated.
 compiling adc.c...
 linking...
-Program Size: Code=1292 RO-data=468 RW-data=0 ZI-data=1784  
-".\Objects\adc.axf" - 0 Error(s), 28 Warning(s).
+Program Size: Code=808 RO-data=468 RW-data=0 ZI-data=1640  
+".\Objects\adc.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 
