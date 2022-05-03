@@ -36,8 +36,8 @@ int main(void)
 				for(n = 0; n < (LENGTH - 1); n++)
 				{
 
-					adcValue1 = (adc1[n] | (adc1[n+1]));
-					adcValue2 = (adc2[n] | (adc2[n+1]));
+					adcValue1 = ((((uint16_t)adc1[n])<<8) | (adc1[n+1]));
+					adcValue2 = ((((uint16_t)adc2[n])<<8) | (adc2[n+1]));
 					adcValue3 = adcValue2 - adcValue1; 
 					adc3[n] = (adcValue3 >> 8); 
 					adc3[n+1] = adcValue3;
