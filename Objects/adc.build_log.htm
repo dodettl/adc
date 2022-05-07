@@ -27,35 +27,44 @@ Project File Date:  04/12/2022
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-adc.c(26): warning: implicit conversion loses integer precision: 'volatile int16_t' (aka 'volatile short') to 'int8_t' (aka 'signed char') [-Wimplicit-int-conversion]
+adc.c(33): warning: implicit conversion loses integer precision: 'volatile int16_t' (aka 'volatile short') to 'int8_t' (aka 'signed char') [-Wimplicit-int-conversion]
                         sendUSART2(transmitValue);
                         ~~~~~~~~~~ ^~~~~~~~~~~~~
-adc.c(39): warning: implicit conversion loses integer precision: 'volatile uint32_t' (aka 'volatile unsigned int') to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
+adc.c(46): warning: implicit conversion loses integer precision: 'volatile uint32_t' (aka 'volatile unsigned int') to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
                 adcValue1 = ADC1->DR;
                           ~ ~~~~~~^~
-adc.c(43): warning: implicit conversion loses integer precision: 'unsigned int' to 'int16_t' (aka 'short') [-Wimplicit-int-conversion]
-                transmitValue = adcValue1 - ADC1->DR;
-                              ~ ~~~~~~~~~~^~~~~~~~~~
-adc.c(58): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+adc.c(50): warning: implicit conversion loses integer precision: 'unsigned int' to 'int16_t' (aka 'short') [-Wimplicit-int-conversion]
+                adcValue0 = adcValue1 - ADC1->DR;
+                          ~ ~~~~~~~~~~^~~~~~~~~~
+adc.c(64): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
         GPIOA->MODER &= ~(3<<0);                //Clear Pin PA0 
                      ~~ ^~~~~~~
-adc.c(107): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+adc.c(113): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
         USART2->CR1 &= ~(1<<12);                                                                //Word length 
                     ~~ ^~~~~~~~
-adc.c(122): warning: no newline at end of file [-Wnewline-eof]
+adc.c(137): warning: implicit conversion loses integer precision: 'int32_t' (aka 'int') to 'int16_t' (aka 'short') [-Wimplicit-int-conversion]
+        return (_2ny>>(k+1)); 
+        ~~~~~~  ~~~~^~~~~~~
+adc.c(138): warning: no newline at end of file [-Wnewline-eof]
 }
  ^
-adc.c(12): warning: no previous extern declaration for non-static variable 'transmitValue' [-Wmissing-variable-declarations]
-volatile int16_t transmitValue; 
+adc.c(15): warning: no previous extern declaration for non-static variable 'adcValue0' [-Wmissing-variable-declarations]
+volatile int16_t adcValue0, transmitValue; 
                  ^
-adc.c(12): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int16_t transmitValue; 
+adc.c(15): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+volatile int16_t adcValue0, transmitValue; 
          ^
-7 warnings generated.
+adc.c(15): warning: no previous extern declaration for non-static variable 'transmitValue' [-Wmissing-variable-declarations]
+volatile int16_t adcValue0, transmitValue; 
+                            ^
+adc.c(15): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+volatile int16_t adcValue0, transmitValue; 
+         ^
+9 warnings generated.
 compiling adc.c...
 linking...
-Program Size: Code=808 RO-data=468 RW-data=0 ZI-data=1640  
-".\Objects\adc.axf" - 0 Error(s), 7 Warning(s).
+Program Size: Code=856 RO-data=468 RW-data=0 ZI-data=1648  
+".\Objects\adc.axf" - 0 Error(s), 9 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -82,9 +91,9 @@ Package Vendor: Keil
 
    * Component: Keil::Device:Startup:2.6.3
       Source file:   MDK\Device\Source\ARM\STM32F446xx_OPT.s
-      Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f446xx.s
+      Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c
 Build Time Elapsed:  00:00:01
 </pre>

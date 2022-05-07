@@ -2,14 +2,17 @@
 #include "string.h"
 #include "stdio.h"
 
+/*Defines for the digital low pass filter*/
+#define k 4
 
 void initTIM2(void); 
 void TIM2_IRQHandler(void);
 void initADC1(void); 
 void initUSART2(void); 
 void sendUSART2(int8_t number);
+int16_t digitalFilter(int16_t inputValue); 
 
-volatile int16_t transmitValue; 
+volatile int16_t adcValue0, transmitValue; 
 
 int main(void)
 {
@@ -22,6 +25,8 @@ int main(void)
 	/*main loop*/
 	while(1)
 	{	
+		  /*Apply a digital low pass filter to the measured ADC value*/
+			transmitValue = digitalFilter(adcValue0); 
 			/*High Byte*/
 			sendUSART2((transmitValue>>8));
 			/*Low Byte*/
@@ -42,7 +47,7 @@ void TIM2_IRQHandler(void){
 	}
 	else
 	{
-		transmitValue = adcValue1 - ADC1->DR;
+		adcValue0 = adcValue1 - ADC1->DR;
 		adcValue1 = 0; 
 	}
 	ADC1->CR2 |= (1<<30);								//Starts the adc conversion 
@@ -120,4 +125,14 @@ void sendUSART2(int8_t number){
 	while(!(USART2->SR & (1<<7)));
 	USART2->DR |= cache; 
 	
+}
+
+int16_t digitalFilter(int16_t inputValue){
+	static int32_t _2nw; 
+	int32_t _2ny; 
+	
+	_2ny = inputValue + _2nw;
+	_2nw = inputValue + _2ny - (_2ny>>k);
+	
+	return (_2ny>>(k+1)); 
 }
