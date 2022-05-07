@@ -1,6 +1,6 @@
 #include "stm32f446xx.h"
 #include "string.h"
-#include "stdio.h"
+#include "stdio.h" 
 
 
 void initTIM2(void); 
@@ -120,4 +120,19 @@ void sendUSART2(int8_t number){
 	while(!(USART2->SR & (1<<7)));
 	USART2->DR |= cache; 
 	
+}
+
+void initCAN()
+{
+	RCC->APB1ENR |= (1<<25);					//Activate clock for CAN
+	RCC->APB2ENR |= (1<<0); 					//Activate clock for alternate function
+	
+	AF
+	
+}
+
+
+void transmitCAN(int16_t transmitValue)
+{
+
 }
