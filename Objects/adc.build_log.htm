@@ -27,79 +27,66 @@ Project File Date:  05/10/2022
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-Peripherie.c(2): warning: In file included from...
+adc.c(4): warning: In file included from...
 ./Peripherie.h(12): warning: padding size of 'CAN_msg' with 1 byte to alignment boundary [-Wpadded]
 typedef struct  {
         ^
 ./Peripherie.h(35): warning: no newline at end of file [-Wnewline-eof]
 #endif
       ^
-Peripherie.c(33): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-    GPIOB->MODER   &= ~(( 3 << ( 8*2)) | ( 3 << ( 9*2)));
-                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(35): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-    GPIOB->OTYPER  &= ~(( 1 <<   8   ) | ( 1 <<   9   ));
-                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(36): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-    GPIOB->OSPEEDR &= ~(( 3 << ( 8*2)) | ( 3 << ( 9*2)));
-                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(37): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-    GPIOB->PUPDR   &= ~(( 3 << ( 8*2)) | ( 3 << ( 9*2)));
-                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(38): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-    GPIOB->AFR[1]  &= ~((15 << ( 0*4)) | (15 << ( 1*4)));
-                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(48): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-    GPIOB->MODER   &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
-                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(50): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-    GPIOB->OTYPER  &= ~(( 1 <<   5   ) | ( 1 <<   6   ));
-                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(51): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-    GPIOB->OSPEEDR &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
-                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(52): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-    GPIOB->PUPDR   &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
-                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(53): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-    GPIOB->AFR[0]  &= ~((15 << ( 5*4)) | (15 << ( 6*4)));
-                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(73): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-  pCAN->BTR &= ~(((        0x03) << 24) | ((        0x07) << 20) | ((        0x0F) << 16) | (          0x3FF));
-            ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(232): warning: no previous prototype for function 'CAN1_TX_IRQHandler' [-Wmissing-prototypes]
-void CAN1_TX_IRQHandler (void) {
+adc.c(8): warning: no previous extern declaration for non-static variable 'val_Tx' [-Wmissing-variable-declarations]
+unsigned int val_Tx = 0, val_Rx = 0;              /* Globals used for display */
+             ^
+adc.c(8): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+unsigned int val_Tx = 0, val_Rx = 0;              /* Globals used for display */
+^
+adc.c(8): warning: no previous extern declaration for non-static variable 'val_Rx' [-Wmissing-variable-declarations]
+unsigned int val_Tx = 0, val_Rx = 0;              /* Globals used for display */
+                         ^
+adc.c(8): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+unsigned int val_Tx = 0, val_Rx = 0;              /* Globals used for display */
+^
+adc.c(14): warning: no previous prototype for function 'SysTick_Handler' [-Wmissing-prototypes]
+void SysTick_Handler(void) {
      ^
-Peripherie.c(232): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void CAN1_TX_IRQHandler (void) {
+adc.c(14): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void SysTick_Handler(void) {
 ^
 static 
-Peripherie.c(242): warning: no previous prototype for function 'CAN2_TX_IRQHandler' [-Wmissing-prototypes]
-void CAN2_TX_IRQHandler (void) {
+adc.c(21): warning: no previous prototype for function 'Delay' [-Wmissing-prototypes]
+void Delay (uint32_t dlyTicks) {
      ^
-Peripherie.c(242): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void CAN2_TX_IRQHandler (void) {
+adc.c(21): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void Delay (uint32_t dlyTicks) {
 ^
 static 
-Peripherie.c(255): warning: no previous prototype for function 'CAN1_RX0_IRQHandler' [-Wmissing-prototypes]
-void CAN1_RX0_IRQHandler (void) {
+adc.c(32): warning: no previous prototype for function 'can_Init' [-Wmissing-prototypes]
+void can_Init(void) {
      ^
-Peripherie.c(255): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void CAN1_RX0_IRQHandler (void) {
+adc.c(32): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void can_Init(void) {
 ^
 static 
-Peripherie.c(264): warning: no previous prototype for function 'CAN2_RX0_IRQHandler' [-Wmissing-prototypes]
-void CAN2_RX0_IRQHandler (void) {
-     ^
-Peripherie.c(264): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void CAN2_RX0_IRQHandler (void) {
+adc.c(67): warning: implicit conversion loses integer precision: 'unsigned int' to 'unsigned char' [-Wimplicit-int-conversion]
+      CAN_TxMsg[1].data[0] = val_Tx;              /* data[0] = ADC value      */
+                           ~ ^~~~~~
+adc.c(6): warning: no previous extern declaration for non-static variable 'i' [-Wmissing-variable-declarations]
+int i; 
+    ^
+adc.c(6): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+int i; 
 ^
-static 
-17 warnings generated.
-compiling Peripherie.c...
+adc.c(10): warning: no previous extern declaration for non-static variable 'msTicks' [-Wmissing-variable-declarations]
+volatile uint32_t msTicks;                        /* counts 1ms timeTicks     */
+                  ^
+adc.c(10): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+volatile uint32_t msTicks;                        /* counts 1ms timeTicks     */
+         ^
+10 warnings generated.
+compiling adc.c...
 linking...
-Program Size: Code=1956 RO-data=484 RW-data=4 ZI-data=1736  
-".\Objects\adc.axf" - 0 Error(s), 17 Warning(s).
+Program Size: Code=1644 RO-data=484 RW-data=4 ZI-data=1728  
+".\Objects\adc.axf" - 0 Error(s), 10 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -130,7 +117,7 @@ Package Vendor: Keil
       Source file:   MDK\Device\Source\ARM\STM32F446xx_OPT.s
       Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
