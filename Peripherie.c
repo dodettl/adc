@@ -86,6 +86,11 @@ void CAN_waitReady (void)  {
  *----------------------------------------------------------------------------*/
 void CAN_wrMsg (uint32_t ctrl, CAN_msg *msg)  {
   CAN_TypeDef *pCAN = (ctrl == 1) ? CAN1 : CAN2;
+	
+//	  if (CAN2->TSR & CAN_TSR_RQCP0) {          /* request completed mbx 0        */
+//    CAN2->TSR |= CAN_TSR_RQCP0;             /* reset request complete mbx 0   */
+//	  CAN_TxRdy[1] = 1; 
+//  }
 
   pCAN->sTxMailBox[0].TIR  = (uint32_t)0; /* reset TXRQ bit */
                                           /* Setup identifier information */

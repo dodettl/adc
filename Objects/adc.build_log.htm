@@ -52,10 +52,10 @@ Peripherie.c(37): warning: implicit conversion changes signedness: 'int' to 'uns
 Peripherie.c(57): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
   pCAN->BTR &= ~(((        0x03) << 24) | ((        0x07) << 20) | ((        0x0F) << 16) | (          0x3FF));
             ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(126): warning: no previous prototype for function 'CAN2_TX_IRQHandler' [-Wmissing-prototypes]
+Peripherie.c(131): warning: no previous prototype for function 'CAN2_TX_IRQHandler' [-Wmissing-prototypes]
 void CAN2_TX_IRQHandler (void) {
      ^
-Peripherie.c(126): note: declare 'static' if the function is not intended to be used outside of this translation unit
+Peripherie.c(131): note: declare 'static' if the function is not intended to be used outside of this translation unit
 void CAN2_TX_IRQHandler (void) {
 ^
 static 
