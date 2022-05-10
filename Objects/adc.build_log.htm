@@ -27,24 +27,55 @@ Project File Date:  05/10/2022
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
+Peripherie.c(2): warning: In file included from...
+./Peripherie.h(12): warning: padding size of 'CAN_msg' with 1 byte to alignment boundary [-Wpadded]
+typedef struct  {
+        ^
+./Peripherie.h(31): warning: no newline at end of file [-Wnewline-eof]
+#endif
+      ^
+Peripherie.c(32): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOB->MODER   &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
+                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(34): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOB->OTYPER  &= ~(( 1 <<   5   ) | ( 1 <<   6   ));
+                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(35): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOB->OSPEEDR &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
+                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(36): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOB->PUPDR   &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
+                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(37): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOB->AFR[0]  &= ~((15 << ( 5*4)) | (15 << ( 6*4)));
+                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(57): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+  pCAN->BTR &= ~(((        0x03) << 24) | ((        0x07) << 20) | ((        0x0F) << 16) | (          0x3FF));
+            ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(126): warning: no previous prototype for function 'CAN2_TX_IRQHandler' [-Wmissing-prototypes]
+void CAN2_TX_IRQHandler (void) {
+     ^
+Peripherie.c(126): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void CAN2_TX_IRQHandler (void) {
+^
+static 
+Peripherie.c(18): warning: unused variable 'CAN_filterIdx' [-Wunused-variable]
+static uint32_t CAN_filterIdx[2] = {0,0};        /* static variable for the filter index */
+                ^
+10 warnings generated.
+compiling Peripherie.c...
 adc.c(4): warning: In file included from...
 ./Peripherie.h(12): warning: padding size of 'CAN_msg' with 1 byte to alignment boundary [-Wpadded]
 typedef struct  {
         ^
-./Peripherie.h(35): warning: no newline at end of file [-Wnewline-eof]
+./Peripherie.h(31): warning: no newline at end of file [-Wnewline-eof]
 #endif
       ^
 adc.c(8): warning: no previous extern declaration for non-static variable 'val_Tx' [-Wmissing-variable-declarations]
-unsigned int val_Tx = 0, val_Rx = 0;              /* Globals used for display */
+unsigned int val_Tx = 0;                                                            /* Globals used for display */
              ^
 adc.c(8): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-unsigned int val_Tx = 0, val_Rx = 0;              /* Globals used for display */
-^
-adc.c(8): warning: no previous extern declaration for non-static variable 'val_Rx' [-Wmissing-variable-declarations]
-unsigned int val_Tx = 0, val_Rx = 0;              /* Globals used for display */
-                         ^
-adc.c(8): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-unsigned int val_Tx = 0, val_Rx = 0;              /* Globals used for display */
+unsigned int val_Tx = 0;                                                            /* Globals used for display */
 ^
 adc.c(14): warning: no previous prototype for function 'SysTick_Handler' [-Wmissing-prototypes]
 void SysTick_Handler(void) {
@@ -60,16 +91,16 @@ adc.c(21): note: declare 'static' if the function is not intended to be used out
 void Delay (uint32_t dlyTicks) {
 ^
 static 
-adc.c(32): warning: no previous prototype for function 'can_Init' [-Wmissing-prototypes]
+adc.c(28): warning: no previous prototype for function 'can_Init' [-Wmissing-prototypes]
 void can_Init(void) {
      ^
-adc.c(32): note: declare 'static' if the function is not intended to be used outside of this translation unit
+adc.c(28): note: declare 'static' if the function is not intended to be used outside of this translation unit
 void can_Init(void) {
 ^
 static 
-adc.c(67): warning: implicit conversion loses integer precision: 'unsigned int' to 'unsigned char' [-Wimplicit-int-conversion]
-      CAN_TxMsg[1].data[0] = val_Tx;              /* data[0] = ADC value      */
-                           ~ ^~~~~~
+adc.c(58): warning: implicit conversion loses integer precision: 'unsigned int' to 'unsigned char' [-Wimplicit-int-conversion]
+      CAN_TxMsg[1].data[0] = val_Tx++;              /* data[0] = ADC value      */
+                           ~ ~~~~~~^~
 adc.c(6): warning: no previous extern declaration for non-static variable 'i' [-Wmissing-variable-declarations]
 int i; 
     ^
@@ -82,11 +113,11 @@ volatile uint32_t msTicks;                        /* counts 1ms timeTicks     */
 adc.c(10): note: declare 'static' if the variable is not intended to be used outside of this translation unit
 volatile uint32_t msTicks;                        /* counts 1ms timeTicks     */
          ^
-10 warnings generated.
+9 warnings generated.
 compiling adc.c...
 linking...
-Program Size: Code=1644 RO-data=484 RW-data=4 ZI-data=1728  
-".\Objects\adc.axf" - 0 Error(s), 10 Warning(s).
+Program Size: Code=1132 RO-data=484 RW-data=4 ZI-data=1688  
+".\Objects\adc.axf" - 0 Error(s), 19 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -117,7 +148,7 @@ Package Vendor: Keil
       Source file:   MDK\Device\Source\ARM\STM32F446xx_OPT.s
       Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
