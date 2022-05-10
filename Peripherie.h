@@ -18,10 +18,12 @@ typedef struct  {
 } CAN_msg;
 
 /* Functions defined in module CAN.c */
-void CAN_setup         (void);
-void CAN_start         (void);
-void CAN_waitReady     (void);
-void CAN_wrMsg         (uint32_t ctrl, CAN_msg *msg);
+void initCAN2(void); 
+void setupCAN2(void);
+void startCAN2(void);
+void waitReadyCAN2(void);
+void initMsgCAN2(void); 
+void wrMsgCAN2(CAN_msg *msg);
 
 extern CAN_msg       CAN_TxMsg[2];      /* CAN messge for sending */
 extern CAN_msg       CAN_RxMsg[2];      /* CAN message for receiving */                                

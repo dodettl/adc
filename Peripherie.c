@@ -3,32 +3,41 @@
 
 /* CAN identifier type */
 #define CAN_ID_STD            ((uint32_t)0x00000000)  /* Standard Id          */
-#define CAN_ID_EXT            ((uint32_t)0x00000004)  /* Extended Id          */
 
 /* CAN remote transmission request */
 #define CAN_RTR_DATA          ((uint32_t)0x00000000)  /* Data frame           */
-#define CAN_RTR_REMOTE        ((uint32_t)0x00000002)  /* Remote frame         */
 
-CAN_msg       CAN_TxMsg[2];                      /* CAN message for sending */
-CAN_msg       CAN_RxMsg[2];                      /* CAN message for receiving */                                
-
+/* CAN Tx variables */
+CAN_msg       CAN_TxMsg[2];                      /* CAN message for sending */                              
 uint32_t      CAN_TxRdy[2] = {0,0};              /* CAN HW ready to transmit a message */
-uint32_t      CAN_RxRdy[2] = {0,0};              /* CAN HW received a message */
 
-static uint32_t CAN_filterIdx[2] = {0,0};        /* static variable for the filter index */
-
+/*----------------------------------------------------------------------------
+  init CAN interface
+ *----------------------------------------------------------------------------*/
+void initCAN2(void) 
+{
+	/* setup CAN Controller #2  */
+  setupCAN2();                                  
+  /* start CAN Controller #2  */
+  startCAN2();                                  
+  /* wait til tx mbx is empty */
+  waitReadyCAN2();  
+	/* init Tx message CAN2 */
+	initMsgCAN2();
+}
 
 /*----------------------------------------------------------------------------
   setup CAN interface
  *----------------------------------------------------------------------------*/
-void CAN_setup (void)  {
+void setupCAN2(void)  
+{
   CAN_TypeDef *pCAN = CAN2;
   uint32_t brp;
 
 	/* Enable clock for CAN2 and GPIOB */
 	RCC->APB1ENR   |= (1 << 25) | (1 << 26);
 	RCC->AHB1ENR   |= (1 <<  1);
-	/* CAN2, we use PB5, PB6 */
+	/* CAN2, use PB5, PB6 */
 	GPIOB->MODER   &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
 	GPIOB->MODER   |=  (( 2 << ( 5*2)) | ( 2 << ( 6*2)));
 	GPIOB->OTYPER  &= ~(( 1 <<   5   ) | ( 1 <<   6   ));
@@ -38,8 +47,6 @@ void CAN_setup (void)  {
 	GPIOB->AFR[0]  |=  (( 9 << ( 5*4)) | ( 9 << ( 6*4)));
 
 	NVIC_EnableIRQ   (CAN2_TX_IRQn);         /* Enable CAN2 interrupts */
-	NVIC_EnableIRQ   (CAN2_RX0_IRQn);
-
 
   pCAN->MCR = (CAN_MCR_INRQ   |           /* initialisation request           */
                CAN_MCR_NART    );         /* no automatic retransmission      */
@@ -49,20 +56,20 @@ void CAN_setup (void)  {
   pCAN->IER = (CAN_IER_FMPIE0 |           /* enable FIFO 0 msg pending IRQ    */
                CAN_IER_TMEIE    );        /* enable Transmit mbx empty IRQ    */
 
-  /* Note: this calculations fit for CAN (APB1) clock = 42MHz */
-  brp  = (16000000 / 7) / 500000;         /* baudrate is set to 500k bit/s   42000000  */
+  /* Note: this calculations fit for CAN (APB1) clock = 16MHz */
+  brp  = (16000000 / 7) / 500000;         /* baudrate is set to 500k bit/s   16000000  */
                                                                           
-  /* set BTR register so that sample point is at about 71% bit time from bit start */
+  /* set BTR register so that sample point is at about 75% bit time from bit start */
   /* TSEG1 = 5, TSEG2 = 2, SJW = 3 => 1 CAN bit = 7 TQ, sample at 75%      */
   pCAN->BTR &= ~(((        0x03) << 24) | ((        0x07) << 20) | ((        0x0F) << 16) | (          0x3FF));
   pCAN->BTR |=  ((((3-1) & 0x03) << 24) | (((2-1) & 0x07) << 20) | (((5-1) & 0x0F) << 16) | ((brp-1) & 0x3FF));
 }
 
-
 /*----------------------------------------------------------------------------
   leave initialisation mode
  *----------------------------------------------------------------------------*/
-void CAN_start (void)  {
+void startCAN2(void)  
+{
   CAN_TypeDef *pCAN = CAN2;
 
   pCAN->MCR &= ~CAN_MCR_INRQ;             /* normal operating mode, reset INRQ*/
@@ -74,7 +81,8 @@ void CAN_start (void)  {
 /*----------------------------------------------------------------------------
   check if transmit mailbox is empty
  *----------------------------------------------------------------------------*/
-void CAN_waitReady (void)  {
+void waitReadyCAN2(void)  
+{
   CAN_TypeDef *pCAN = CAN2;
 
   while ((pCAN->TSR & CAN_TSR_TME0) == 0);  /* Transmit mailbox 0 is empty    */
@@ -82,31 +90,33 @@ void CAN_waitReady (void)  {
 }
 
 /*----------------------------------------------------------------------------
+  init CAN message frame
+ *----------------------------------------------------------------------------*/
+void initMsgCAN2(void)
+{
+	/* initialize msg to send   */
+  CAN_TxMsg[1].id = 33;                           
+  for (int i = 0; i < 8; i++) CAN_TxMsg[0].data[i] = 0;
+  CAN_TxMsg[1].len = 1;
+  CAN_TxMsg[1].format = STANDARD_FORMAT;
+	CAN_TxMsg[1].type = DATA_FRAME;
+}
+/*----------------------------------------------------------------------------
   wite a message to CAN peripheral and transmit it
  *----------------------------------------------------------------------------*/
-void CAN_wrMsg (uint32_t ctrl, CAN_msg *msg)  {
-  CAN_TypeDef *pCAN = (ctrl == 1) ? CAN1 : CAN2;
+void wrMsgCAN2(CAN_msg *msg)
+{
+  CAN_TypeDef *pCAN = CAN2; 
 	
-//	  if (CAN2->TSR & CAN_TSR_RQCP0) {          /* request completed mbx 0        */
-//    CAN2->TSR |= CAN_TSR_RQCP0;             /* reset request complete mbx 0   */
-//	  CAN_TxRdy[1] = 1; 
-//  }
-
   pCAN->sTxMailBox[0].TIR  = (uint32_t)0; /* reset TXRQ bit */
-                                          /* Setup identifier information */
-  if (msg->format == STANDARD_FORMAT) {   /*    Standard ID                   */
-    pCAN->sTxMailBox[0].TIR |= (uint32_t)(msg->id << 21) | CAN_ID_STD;
-  } else {                                /* Extended ID                      */
-    pCAN->sTxMailBox[0].TIR |= (uint32_t)(msg->id <<  3) | CAN_ID_EXT;
-  }
+                                          
+	/* Setup identifier information */
+  pCAN->sTxMailBox[0].TIR |= (uint32_t)(msg->id << 21) | CAN_ID_STD;
 
-                                          /* Setup type information           */
-  if (msg->type == DATA_FRAME)  {         /* DATA FRAME                       */
-    pCAN->sTxMailBox[0].TIR |= CAN_RTR_DATA;
-  } else {                                /* REMOTE FRAME                     */
-    pCAN->sTxMailBox[0].TIR |= CAN_RTR_REMOTE;
-  }
-                                          /* Setup data bytes                 */
+  /* Setup type information           */
+  pCAN->sTxMailBox[0].TIR |= CAN_RTR_DATA;
+
+  /* Setup data bytes                 */                                        
   pCAN->sTxMailBox[0].TDLR = (((uint32_t)msg->data[3] << 24) | 
                               ((uint32_t)msg->data[2] << 16) |
                               ((uint32_t)msg->data[1] <<  8) | 
@@ -115,23 +125,23 @@ void CAN_wrMsg (uint32_t ctrl, CAN_msg *msg)  {
                               ((uint32_t)msg->data[6] << 16) |
                               ((uint32_t)msg->data[5] <<  8) |
                               ((uint32_t)msg->data[4])        );
-                                          /* Setup length                     */
+  
+	/* Setup length                     */                                        
   pCAN->sTxMailBox[0].TDTR &= ~CAN_TDT0R_DLC;
   pCAN->sTxMailBox[0].TDTR |=  (msg->len & CAN_TDT0R_DLC);
 
-  //pCAN->IER |= CAN_IER_TMEIE;                 /* enable  TME interrupt        */
+  pCAN->IER |= CAN_IER_TMEIE;                 /* enable  TME interrupt        */
   pCAN->sTxMailBox[0].TIR |=  CAN_TI0R_TXRQ;  /* transmit message             */
-
-	
 }
 
 /*----------------------------------------------------------------------------
   CAN transmit interrupt handler
  *----------------------------------------------------------------------------*/
-void CAN2_TX_IRQHandler (void) {
-
-  if (CAN2->TSR & CAN_TSR_RQCP0) {          /* request completed mbx 0        */
-    CAN2->TSR |= CAN_TSR_RQCP0;             /* reset request complete mbx 0   */
+void CAN2_TX_IRQHandler (void) 
+{
+  if (CAN2->TSR & CAN_TSR_RQCP0)           /* request completed mbx 0        */
+  {
+		CAN2->TSR |= CAN_TSR_RQCP0;             /* reset request complete mbx 0   */
     CAN2->IER &= ~CAN_IER_TMEIE;            /* disable  TME interrupt         */
 	  CAN_TxRdy[1] = 1; 
   }
