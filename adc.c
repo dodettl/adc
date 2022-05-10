@@ -1,138 +1,96 @@
 #include "stm32f446xx.h"
 #include "string.h"
 #include "stdio.h" 
+#include "Peripherie.h"
 
+int i; 
 
-void initTIM2(void); 
-void TIM2_IRQHandler(void);
-void initADC1(void); 
-void initUSART2(void); 
-void sendUSART2(int8_t number);
+unsigned int val_Tx = 0, val_Rx = 0;              /* Globals used for display */
 
-volatile int16_t transmitValue; 
+volatile uint32_t msTicks;                        /* counts 1ms timeTicks     */
+/*----------------------------------------------------------------------------
+  SysTick_Handler
+ *----------------------------------------------------------------------------*/
+void SysTick_Handler(void) {
+  msTicks++;                        /* increment counter necessary in Delay() */
+}
+
+/*----------------------------------------------------------------------------
+  delays number of tick Systicks (happens every 1 ms)
+ *----------------------------------------------------------------------------*/
+void Delay (uint32_t dlyTicks) {
+  uint32_t curTicks;
+
+#ifndef __NO_SYSTICK
+  curTicks = msTicks;
+  while ((msTicks - curTicks) < dlyTicks);
+#else
+  for (curTicks = 0; curTicks < (dlyTicks * 0x1000); curTicks++) __NOP();
+#endif
+}
+
+void can_Init(void) {
+
+  CAN_setup (1);                                  /* setup CAN Controller #1  */
+#ifndef __TEST
+  CAN_setup (2);                                  /* setup CAN Controller #2  */
+#endif
+  CAN_wrFilter (1, 33, STANDARD_FORMAT);          /* Enable reception of msgs */
+
+#ifdef __TEST
+  CAN_testmode(1, CAN_BTR_SILM | CAN_BTR_LBKM);   // Loopback, Silent Mode (self-test)
+#endif
+
+  CAN_start (1);                                  /* start CAN Controller #1  */
+#ifndef __TEST
+  CAN_start (2);                                  /* start CAN Controller #2  */
+#endif
+
+  CAN_waitReady (1);                              /* wait til tx mbx is empty */
+#ifndef __TEST
+  CAN_waitReady (2);                              /* wait til tx mbx is empty */
+#endif
+}
+
 
 int main(void)
 {
 
 	/*Init functions*/
-	initADC1();
-	initTIM2(); 
-	initUSART2(); 
+	#ifndef __NO_SYSTICK
+  SysTick_Config(SystemCoreClock /1000);         /* SysTick 1 msec irq       */
+	#endif
+  can_Init();                                    /* initialize CAN interface */
+
+  CAN_TxMsg[1].id = 33;                           /* initialize msg to send   */
+  for (i = 0; i < 8; i++) CAN_TxMsg[0].data[i] = 0;
+  CAN_TxMsg[1].len = 1;
+  CAN_TxMsg[1].format = STANDARD_FORMAT;
+	CAN_TxMsg[1].type = DATA_FRAME;
 	
 	/*main loop*/
 	while(1)
 	{	
-			/*High Byte*/
-			sendUSART2((transmitValue>>8));
-			/*Low Byte*/
-			sendUSART2(transmitValue);
+		  if (CAN_TxRdy[1]) {                           /* tx msg on CAN Ctrl #2    */
+      CAN_TxRdy[1] = 0;
+
+      CAN_TxMsg[1].data[0] = val_Tx;              /* data[0] = ADC value      */
+			for (i = 1; i < 8; i++) CAN_TxMsg[1].data[i] = 0x77;
+      CAN_wrMsg (2, &CAN_TxMsg[1]);               /* transmit message         */
+    }	
+		Delay (10);                                   /* delay for 10ms           */
+
+    if (CAN_RxRdy[0]) {                           /* rx msg on CAN Ctrl #1    */
+      CAN_RxRdy[0] = 0;
+
+      val_Rx = CAN_RxMsg[0].data[0];
+    }
+		
+    Delay (500);                                  /* delay for 500ms          */
+
+		
 	}
 }
 
-void TIM2_IRQHandler(void){
-
-	static uint16_t adcValue1; 
-	
-	TIM2->SR = 0; 													//Clear interrupt flag
-	GPIOA->ODR ^= (1<<0);										//toggle PA0
-
-	if(adcValue1 == 0)
-	{
-		adcValue1 = ADC1->DR;
-	}
-	else
-	{
-		transmitValue = adcValue1 - ADC1->DR;
-		adcValue1 = 0; 
-	}
-	ADC1->CR2 |= (1<<30);								//Starts the adc conversion 
-}
 
 
-void initTIM2(void){
-
-	/*Disable interrupt*/
-	__disable_irq(); 						
-	
-	/*Init GPIOA Port*/
-	RCC->AHB1ENR |= 1; 					
-	GPIOA->MODER &= ~(3<<0);		//Clear Pin PA0 
-	GPIOA->MODER |= (1<<0);			//Set Pin PA0 as an output 
-
-	/*Init TIM2*/
-	RCC->APB1ENR |= 1; 
-	TIM2->PSC = 16 - 1; 	//16 MHz divided by 16 => 1Mhz
-	TIM2->ARR = 100 - 1; 	//Counter 100 => 1Mhz/100 = 10 kHz
-	TIM2->CR1 = 1; 
-
-	/*Setup interrupt*/
-	TIM2->DIER |= 1; 
-	NVIC_EnableIRQ(TIM2_IRQn);
-	
-	/*Enable interrupt*/
-	__enable_irq();
-
-}
-
-void initADC1(void){
-
-	/*Configure clock*/
-	RCC->AHB1ENR |= 1;						//Enable GPIOA clock 
-	GPIOA->MODER |= (3<<2); 			//Analog mode PA1
-	
-	/*Configure ADC1*/
-	RCC->APB2ENR |= (1<<8);				//Enable ADC1 clock 
-	ADC1->SQR3 = 1;								//Conversion sequence starts at channel 1
-	ADC1->SQR1 = 0; 						  //Conversion length 1
-	ADC1->SMPR2 |= (111 < 3); 		//480 cycles sampling time, Reference Manual 13.13.5, Berechnung 2. Tag 
-	ADC1->CR2 = 0;								//clear
-	ADC1->CR2 = (1<<0); //|| (1<<11); 					//Enable ADC1 and align the data to the left side for an easier signed value calculation
-	
-}
-
-void initUSART2(void){
- 
-	/*Configure Clock*/
-	RCC->AHB1ENR |= 1; 
-	RCC->APB1ENR |= (1 << 17);
-	
-	/*Configure PA2 for USART2_TX */
-	GPIOA->AFR[0] |= (7 << 8);
-	GPIOA->AFR[0] |= (7 << 12);
-	GPIOA->MODER |= (2 << 4);
-	GPIOA->MODER |= (2 << 6);
-	
-	/*Configure UART*/
-	USART2->BRR |= (104 << 4) | (3 << 0);   //Mantissa and Fraction
-	USART2->CR1 = 0x00; 									 	//Reset all
-	USART2->CR1 &= ~(1<<12); 								//Word length 
-	USART2->CR1 |= (1<<3);									//Enable TE
-	USART2->CR2 = 0x00;											//1 Stop Bit
-	USART2->CR3 = 0x00;											//No flow control 
-	USART2->CR1 |= (1<<13);									//Enable USART2
-	
-}
-
-void sendUSART2(int8_t number){
-
-	volatile char cache = 0;
-	cache = (char)number;									//Typumwandlung 
-	while(!(USART2->SR & (1<<7)));
-	USART2->DR |= cache; 
-	
-}
-
-void initCAN()
-{
-	RCC->APB1ENR |= (1<<25);					//Activate clock for CAN
-	RCC->APB2ENR |= (1<<0); 					//Activate clock for alternate function
-	
-	AF
-	
-}
-
-
-void transmitCAN(int16_t transmitValue)
-{
-
-}

@@ -22,40 +22,84 @@ Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
 C:\Users\dettl\Desktop\Dominik\Programmieren\Studienarbeit 2\adc\adc.uvprojx
-Project File Date:  04/12/2022
+Project File Date:  05/10/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-adc.c(26): warning: implicit conversion loses integer precision: 'volatile int16_t' (aka 'volatile short') to 'int8_t' (aka 'signed char') [-Wimplicit-int-conversion]
-                        sendUSART2(transmitValue);
-                        ~~~~~~~~~~ ^~~~~~~~~~~~~
-adc.c(39): warning: implicit conversion loses integer precision: 'volatile uint32_t' (aka 'volatile unsigned int') to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
-                adcValue1 = ADC1->DR;
-                          ~ ~~~~~~^~
-adc.c(43): warning: implicit conversion loses integer precision: 'unsigned int' to 'int16_t' (aka 'short') [-Wimplicit-int-conversion]
-                transmitValue = adcValue1 - ADC1->DR;
-                              ~ ~~~~~~~~~~^~~~~~~~~~
-adc.c(58): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-        GPIOA->MODER &= ~(3<<0);                //Clear Pin PA0 
-                     ~~ ^~~~~~~
-adc.c(107): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-        USART2->CR1 &= ~(1<<12);                                                                //Word length 
-                    ~~ ^~~~~~~~
-adc.c(122): warning: no newline at end of file [-Wnewline-eof]
-}
- ^
-adc.c(12): warning: no previous extern declaration for non-static variable 'transmitValue' [-Wmissing-variable-declarations]
-volatile int16_t transmitValue; 
-                 ^
-adc.c(12): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int16_t transmitValue; 
-         ^
-7 warnings generated.
-compiling adc.c...
+Peripherie.c(2): warning: In file included from...
+./Peripherie.h(12): warning: padding size of 'CAN_msg' with 1 byte to alignment boundary [-Wpadded]
+typedef struct  {
+        ^
+./Peripherie.h(35): warning: no newline at end of file [-Wnewline-eof]
+#endif
+      ^
+Peripherie.c(33): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+    GPIOB->MODER   &= ~(( 3 << ( 8*2)) | ( 3 << ( 9*2)));
+                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(35): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+    GPIOB->OTYPER  &= ~(( 1 <<   8   ) | ( 1 <<   9   ));
+                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(36): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+    GPIOB->OSPEEDR &= ~(( 3 << ( 8*2)) | ( 3 << ( 9*2)));
+                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(37): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+    GPIOB->PUPDR   &= ~(( 3 << ( 8*2)) | ( 3 << ( 9*2)));
+                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(38): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+    GPIOB->AFR[1]  &= ~((15 << ( 0*4)) | (15 << ( 1*4)));
+                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(48): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+    GPIOB->MODER   &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
+                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(50): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+    GPIOB->OTYPER  &= ~(( 1 <<   5   ) | ( 1 <<   6   ));
+                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(51): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+    GPIOB->OSPEEDR &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
+                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(52): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+    GPIOB->PUPDR   &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
+                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(53): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+    GPIOB->AFR[0]  &= ~((15 << ( 5*4)) | (15 << ( 6*4)));
+                   ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(73): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+  pCAN->BTR &= ~(((        0x03) << 24) | ((        0x07) << 20) | ((        0x0F) << 16) | (          0x3FF));
+            ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(232): warning: no previous prototype for function 'CAN1_TX_IRQHandler' [-Wmissing-prototypes]
+void CAN1_TX_IRQHandler (void) {
+     ^
+Peripherie.c(232): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void CAN1_TX_IRQHandler (void) {
+^
+static 
+Peripherie.c(242): warning: no previous prototype for function 'CAN2_TX_IRQHandler' [-Wmissing-prototypes]
+void CAN2_TX_IRQHandler (void) {
+     ^
+Peripherie.c(242): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void CAN2_TX_IRQHandler (void) {
+^
+static 
+Peripherie.c(255): warning: no previous prototype for function 'CAN1_RX0_IRQHandler' [-Wmissing-prototypes]
+void CAN1_RX0_IRQHandler (void) {
+     ^
+Peripherie.c(255): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void CAN1_RX0_IRQHandler (void) {
+^
+static 
+Peripherie.c(264): warning: no previous prototype for function 'CAN2_RX0_IRQHandler' [-Wmissing-prototypes]
+void CAN2_RX0_IRQHandler (void) {
+     ^
+Peripherie.c(264): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void CAN2_RX0_IRQHandler (void) {
+^
+static 
+17 warnings generated.
+compiling Peripherie.c...
 linking...
-Program Size: Code=808 RO-data=468 RW-data=0 ZI-data=1640  
-".\Objects\adc.axf" - 0 Error(s), 7 Warning(s).
+Program Size: Code=1956 RO-data=484 RW-data=4 ZI-data=1736  
+".\Objects\adc.axf" - 0 Error(s), 17 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -81,10 +125,10 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.5.0
 
    * Component: Keil::Device:Startup:2.6.3
-      Source file:   MDK\Device\Source\ARM\STM32F446xx_OPT.s
-      Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f446xx.s
+      Source file:   MDK\Device\Source\ARM\STM32F446xx_OPT.s
+      Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c
 Build Time Elapsed:  00:00:01
 </pre>
