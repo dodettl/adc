@@ -1,6 +1,7 @@
 #include "stm32f446xx.h"
 #include "string.h"
-#include "stdio.h"
+#include "stdio.h" 
+#include "Peripherie.h"
 
 /*Defines for the digital low pass filter*/
 #define k 4
@@ -14,13 +15,16 @@ int16_t digitalFilter(int16_t inputValue);
 
 volatile int16_t adcValue0, transmitValue; 
 
+//  curTicks = msTicks;
+//  while ((msTicks - curTicks) < dlyTicks);
+//}
+
 int main(void)
 {
 
 	/*Init functions*/
-	initADC1();
-	initTIM2(); 
-	initUSART2(); 
+  //SysTick_Config(SystemCoreClock /1000);         /* SysTick 1 msec irq       */
+  initCAN2();                                    /* initialize CAN interface */
 	
 	/*main loop*/
 	while(1)
@@ -34,12 +38,7 @@ int main(void)
 	}
 }
 
-void TIM2_IRQHandler(void){
 
-	static uint16_t adcValue1; 
-	
-	TIM2->SR = 0; 													//Clear interrupt flag
-	GPIOA->ODR ^= (1<<0);										//toggle PA0
 
 	if(adcValue1 == 0)
 	{
