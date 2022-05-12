@@ -4,10 +4,9 @@
 #include "stdint.h"
 
 #define STANDARD_FORMAT  0
-#define EXTENDED_FORMAT  1
 
 #define DATA_FRAME       0
-#define REMOTE_FRAME     1
+
 
 typedef struct  {
   unsigned int   id;                    /* 29 bit identifier */

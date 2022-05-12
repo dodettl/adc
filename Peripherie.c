@@ -97,7 +97,7 @@ void initMsgCAN2(void)
 	/* initialize msg to send   */
   CAN_TxMsg[1].id = 33;                           
   for (int i = 0; i < 8; i++) CAN_TxMsg[0].data[i] = 0;
-  CAN_TxMsg[1].len = 1;
+  CAN_TxMsg[1].len = 2;
   CAN_TxMsg[1].format = STANDARD_FORMAT;
 	CAN_TxMsg[1].type = DATA_FRAME;
 }

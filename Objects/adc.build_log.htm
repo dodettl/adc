@@ -22,16 +22,16 @@ Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
 C:\Users\dettl\Desktop\Dominik\Programmieren\Studienarbeit 2\adc\adc.uvprojx
-Project File Date:  05/10/2022
+Project File Date:  05/12/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
 adc.c(4): warning: In file included from...
-./Peripherie.h(12): warning: padding size of 'CAN_msg' with 1 byte to alignment boundary [-Wpadded]
+./Peripherie.h(11): warning: padding size of 'CAN_msg' with 1 byte to alignment boundary [-Wpadded]
 typedef struct  {
         ^
-./Peripherie.h(33): warning: no newline at end of file [-Wnewline-eof]
+./Peripherie.h(32): warning: no newline at end of file [-Wnewline-eof]
 #endif
       ^
 adc.c(6): warning: no previous extern declaration for non-static variable 'val_Tx' [-Wmissing-variable-declarations]
@@ -40,34 +40,54 @@ unsigned int val_Tx = 0;                                                        
 adc.c(6): note: declare 'static' if the variable is not intended to be used outside of this translation unit
 unsigned int val_Tx = 0;                                                            /* Globals used for display */
 ^
-adc.c(12): warning: no previous prototype for function 'SysTick_Handler' [-Wmissing-prototypes]
-void SysTick_Handler(void) {
-     ^
-adc.c(12): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void SysTick_Handler(void) {
-^
-static 
-adc.c(19): warning: no previous prototype for function 'Delay' [-Wmissing-prototypes]
-void Delay (uint32_t dlyTicks) {
-     ^
-adc.c(19): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void Delay (uint32_t dlyTicks) {
-^
-static 
-adc.c(41): warning: implicit conversion loses integer precision: 'unsigned int' to 'unsigned char' [-Wimplicit-int-conversion]
-                                CAN_TxMsg[1].data[0] = val_Tx++;              
-                                                     ~ ~~~~~~^~
 adc.c(8): warning: no previous extern declaration for non-static variable 'msTicks' [-Wmissing-variable-declarations]
 volatile uint32_t msTicks;                        /* counts 1ms timeTicks     */
                   ^
 adc.c(8): note: declare 'static' if the variable is not intended to be used outside of this translation unit
 volatile uint32_t msTicks;                        /* counts 1ms timeTicks     */
          ^
-7 warnings generated.
+4 warnings generated.
 compiling adc.c...
+Peripherie.c(2): warning: In file included from...
+./Peripherie.h(11): warning: padding size of 'CAN_msg' with 1 byte to alignment boundary [-Wpadded]
+typedef struct  {
+        ^
+./Peripherie.h(32): warning: no newline at end of file [-Wnewline-eof]
+#endif
+      ^
+Peripherie.c(41): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOB->MODER   &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
+                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(43): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOB->OTYPER  &= ~(( 1 <<   5   ) | ( 1 <<   6   ));
+                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(44): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOB->OSPEEDR &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
+                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(45): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOB->PUPDR   &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
+                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(46): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOB->AFR[0]  &= ~((15 << ( 5*4)) | (15 << ( 6*4)));
+                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(64): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+  pCAN->BTR &= ~(((        0x03) << 24) | ((        0x07) << 20) | ((        0x0F) << 16) | (          0x3FF));
+            ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(148): warning: no newline at end of file [-Wnewline-eof]
+}
+ ^
+Peripherie.c(140): warning: no previous prototype for function 'CAN2_TX_IRQHandler' [-Wmissing-prototypes]
+void CAN2_TX_IRQHandler (void) 
+     ^
+Peripherie.c(140): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void CAN2_TX_IRQHandler (void) 
+^
+static 
+10 warnings generated.
+compiling Peripherie.c...
 linking...
-Program Size: Code=1004 RO-data=484 RW-data=4 ZI-data=1680  
-".\Objects\adc.axf" - 0 Error(s), 7 Warning(s).
+Program Size: Code=816 RO-data=468 RW-data=0 ZI-data=1672  
+".\Objects\adc.axf" - 0 Error(s), 14 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -93,9 +113,9 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.5.0
 
    * Component: Keil::Device:Startup:2.6.3
-      Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
-      Source file:   MDK\Device\Source\ARM\STM32F446xx_OPT.s
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f446xx.s
+      Source file:   MDK\Device\Source\ARM\STM32F446xx_OPT.s
+      Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c
 Build Time Elapsed:  00:00:01
