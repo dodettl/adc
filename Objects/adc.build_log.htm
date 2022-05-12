@@ -27,7 +27,62 @@ Project File Date:  05/12/2022
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-".\Objects\adc.axf" - 0 Error(s), 0 Warning(s).
+Peripherie.c(2): warning: In file included from...
+./Peripherie.h(37): warning: padding size of 'CAN_msg' with 1 byte to alignment boundary [-Wpadded]
+typedef struct  {
+        ^
+./Peripherie.h(72): warning: no newline at end of file [-Wnewline-eof]
+#endif
+      ^
+Peripherie.c(41): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOB->MODER   &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
+                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(43): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOB->OTYPER  &= ~(( 1 <<   5   ) | ( 1 <<   6   ));
+                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(44): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOB->OSPEEDR &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
+                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(45): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOB->PUPDR   &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
+                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(46): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOB->AFR[0]  &= ~((15 << ( 5*4)) | (15 << ( 6*4)));
+                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(64): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+  pCAN->BTR &= ~(((        0x03) << 24) | ((        0x07) << 20) | ((        0x0F) << 16) | (          0x3FF));
+            ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Peripherie.c(140): warning: no previous prototype for function 'CAN2_TX_IRQHandler' [-Wmissing-prototypes]
+void CAN2_TX_IRQHandler (void) 
+     ^
+Peripherie.c(140): note: declare 'static' if the function is not intended to be used outside of this translation unit
+void CAN2_TX_IRQHandler (void) 
+^
+static 
+Peripherie.c(165): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        USART2->CR1 &= ~(1<<12);                                                                //Word length 
+                    ~~ ^~~~~~~~
+Peripherie.c(190): warning: implicit conversion loses integer precision: 'int32_t' (aka 'int') to 'int16_t' (aka 'short') [-Wimplicit-int-conversion]
+        return (_2ny>>(k+1)); 
+        ~~~~~~  ~~~~^~~~~~~
+Peripherie.c(211): warning: implicitly declaring library function 'memset' with type 'void *(void *, int, unsigned int)' [-Wimplicit-function-declaration]
+                memset(storeValues, 0, sizeof(storeValues)); 
+                ^
+Peripherie.c(211): note: include the header <string.h> or explicitly provide a declaration for 'memset'
+Peripherie.c(211): warning: passing 'volatile int16_t [10]' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+                memset(storeValues, 0, sizeof(storeValues)); 
+                       ^~~~~~~~~~~
+Peripherie.c(227): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
+        GPIOA->MODER &= ~(3<<0);                //Clear Pin PA0 
+                     ~~ ^~~~~~~
+Peripherie.c(259): warning: no newline at end of file [-Wnewline-eof]
+}
+ ^
+15 warnings generated.
+compiling Peripherie.c...
+linking...
+Program Size: Code=1564 RO-data=484 RW-data=4 ZI-data=1720  
+".\Objects\adc.axf" - 0 Error(s), 15 Warning(s).
 
 <h2>Software Packages used:</h2>
 
