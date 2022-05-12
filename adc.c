@@ -5,41 +5,69 @@
 
 /*Defines for the digital low pass filter*/
 #define k 4
+#define ENABLE_DEBUGGING_INTERFACE 0
 
 void initTIM2(void); 
 void TIM2_IRQHandler(void);
 void initADC1(void); 
 void initUSART2(void); 
 void sendUSART2(int8_t number);
-int16_t digitalFilter(int16_t inputValue); 
+int16_t digitalIIRFilter(int16_t inputValue); 
+int16_t digitalFIRFilter(int16_t inputValue); 
+void Delay(uint32_t dlyTicks);
+void SysTick_Handler(void);
 
-volatile int16_t adcValue0, transmitValue; 
 
-//  curTicks = msTicks;
-//  while ((msTicks - curTicks) < dlyTicks);
-//}
+volatile uint32_t msTicks;                        /* counts 1ms timeTicks     */
+
+volatile int16_t adcValue0, filteredIIRValue, transmitValue; 
 
 int main(void)
 {
 
 	/*Init functions*/
-  //SysTick_Config(SystemCoreClock /1000);         /* SysTick 1 msec irq       */
-  initCAN2();                                    /* initialize CAN interface */
+	initADC1();
+	initUSART2();
+	initTIM2();
+  initCAN2();                                  
+	SysTick_Config(SystemCoreClock /1000);         /* SysTick 1 msec irq       */
 	
 	/*main loop*/
 	while(1)
 	{	
-		  /*Apply a digital low pass filter to the measured ADC value*/
-			transmitValue = digitalFilter(adcValue0); 
-			/*High Byte*/
-			sendUSART2((transmitValue>>8));
-			/*Low Byte*/
-			sendUSART2(transmitValue);
+		
+			filteredIIRValue = digitalIIRFilter(adcValue0);
+			transmitValue = digitalFIRFilter(filteredIIRValue);
+			if(transmitValue != 0)
+			{
+					CAN_TxRdy[1] = 0;				
+					/*High Byte*/
+					CAN_TxMsg[1].data[0] = (transmitValue>>8);
+					/*Low Byte*/
+					CAN_TxMsg[1].data[1] = transmitValue; 
+					/* transmit message */
+					wrMsgCAN2(&CAN_TxMsg[1]);               
+					
+					if(ENABLE_DEBUGGING_INTERFACE == 1)
+					{
+							/*High Byte*/
+							sendUSART2((transmitValue>>8));
+							/*Low Byte*/
+							sendUSART2(transmitValue);
+					}
+					Delay(10); 
+			}
 	}
 }
 
 
+void TIM2_IRQHandler(void){
 
+	static uint16_t adcValue1; 
+	
+	TIM2->SR = 0; 													//Clear interrupt flag
+	GPIOA->ODR ^= (1<<0);	
+	
 	if(adcValue1 == 0)
 	{
 		adcValue1 = ADC1->DR;
@@ -126,7 +154,8 @@ void sendUSART2(int8_t number){
 	
 }
 
-int16_t digitalFilter(int16_t inputValue){
+int16_t digitalIIRFilter(int16_t inputValue)
+{
 	static int32_t _2nw; 
 	int32_t _2ny; 
 	
@@ -134,4 +163,47 @@ int16_t digitalFilter(int16_t inputValue){
 	_2nw = inputValue + _2ny - (_2ny>>k);
 	
 	return (_2ny>>(k+1)); 
+}
+
+int16_t digitalFIRFilter(int16_t inputValue)
+{
+	volatile static int16_t storeValues[10]; 
+	volatile int16_t filteredValue = 0; 
+	volatile static uint8_t counter; 
+	
+	if(counter < 10)
+	{
+		storeValues[counter] = inputValue; 
+		counter++; 
+	}
+	else
+	{
+		for(counter = 0;counter < 10; counter++)
+		{
+			filteredValue += storeValues[counter];
+		}
+		counter = 0; 
+		memset(storeValues, 0, sizeof(storeValues)); 
+		return(filteredValue/10); 
+	}
+	
+	return 0; 
+}
+
+
+/*----------------------------------------------------------------------------
+  SysTick_Handler
+ *----------------------------------------------------------------------------*/
+void SysTick_Handler(void) {
+  msTicks++;                        /* increment counter necessary in Delay() */
+}
+
+/*----------------------------------------------------------------------------
+  delays number of tick Systicks (happens every 1 ms)
+ *----------------------------------------------------------------------------*/
+void Delay (uint32_t dlyTicks) {
+  uint32_t curTicks;
+
+  curTicks = msTicks;
+  while ((msTicks - curTicks) < dlyTicks);
 }

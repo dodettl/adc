@@ -27,109 +27,7 @@ Project File Date:  05/12/2022
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-<<<<<<< HEAD
-adc.c(33): warning: implicit conversion loses integer precision: 'volatile int16_t' (aka 'volatile short') to 'int8_t' (aka 'signed char') [-Wimplicit-int-conversion]
-                        sendUSART2(transmitValue);
-                        ~~~~~~~~~~ ^~~~~~~~~~~~~
-adc.c(46): warning: implicit conversion loses integer precision: 'volatile uint32_t' (aka 'volatile unsigned int') to 'uint16_t' (aka 'unsigned short') [-Wimplicit-int-conversion]
-                adcValue1 = ADC1->DR;
-                          ~ ~~~~~~^~
-adc.c(50): warning: implicit conversion loses integer precision: 'unsigned int' to 'int16_t' (aka 'short') [-Wimplicit-int-conversion]
-                adcValue0 = adcValue1 - ADC1->DR;
-                          ~ ~~~~~~~~~~^~~~~~~~~~
-adc.c(64): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-        GPIOA->MODER &= ~(3<<0);                //Clear Pin PA0 
-                     ~~ ^~~~~~~
-adc.c(113): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-        USART2->CR1 &= ~(1<<12);                                                                //Word length 
-                    ~~ ^~~~~~~~
-adc.c(137): warning: implicit conversion loses integer precision: 'int32_t' (aka 'int') to 'int16_t' (aka 'short') [-Wimplicit-int-conversion]
-        return (_2ny>>(k+1)); 
-        ~~~~~~  ~~~~^~~~~~~
-adc.c(138): warning: no newline at end of file [-Wnewline-eof]
-}
- ^
-adc.c(15): warning: no previous extern declaration for non-static variable 'adcValue0' [-Wmissing-variable-declarations]
-volatile int16_t adcValue0, transmitValue; 
-                 ^
-adc.c(15): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int16_t adcValue0, transmitValue; 
-         ^
-adc.c(15): warning: no previous extern declaration for non-static variable 'transmitValue' [-Wmissing-variable-declarations]
-volatile int16_t adcValue0, transmitValue; 
-                            ^
-adc.c(15): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile int16_t adcValue0, transmitValue; 
-         ^
-9 warnings generated.
-=======
-adc.c(4): warning: In file included from...
-./Peripherie.h(11): warning: padding size of 'CAN_msg' with 1 byte to alignment boundary [-Wpadded]
-typedef struct  {
-        ^
-./Peripherie.h(32): warning: no newline at end of file [-Wnewline-eof]
-#endif
-      ^
-adc.c(6): warning: no previous extern declaration for non-static variable 'val_Tx' [-Wmissing-variable-declarations]
-unsigned int val_Tx = 0;                                                            /* Globals used for display */
-             ^
-adc.c(6): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-unsigned int val_Tx = 0;                                                            /* Globals used for display */
-^
-adc.c(8): warning: no previous extern declaration for non-static variable 'msTicks' [-Wmissing-variable-declarations]
-volatile uint32_t msTicks;                        /* counts 1ms timeTicks     */
-                  ^
-adc.c(8): note: declare 'static' if the variable is not intended to be used outside of this translation unit
-volatile uint32_t msTicks;                        /* counts 1ms timeTicks     */
-         ^
-4 warnings generated.
->>>>>>> CAN
-compiling adc.c...
-Peripherie.c(2): warning: In file included from...
-./Peripherie.h(11): warning: padding size of 'CAN_msg' with 1 byte to alignment boundary [-Wpadded]
-typedef struct  {
-        ^
-./Peripherie.h(32): warning: no newline at end of file [-Wnewline-eof]
-#endif
-      ^
-Peripherie.c(41): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-        GPIOB->MODER   &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
-                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(43): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-        GPIOB->OTYPER  &= ~(( 1 <<   5   ) | ( 1 <<   6   ));
-                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(44): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-        GPIOB->OSPEEDR &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
-                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(45): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-        GPIOB->PUPDR   &= ~(( 3 << ( 5*2)) | ( 3 << ( 6*2)));
-                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(46): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-        GPIOB->AFR[0]  &= ~((15 << ( 5*4)) | (15 << ( 6*4)));
-                       ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(64): warning: implicit conversion changes signedness: 'int' to 'unsigned int' [-Wsign-conversion]
-  pCAN->BTR &= ~(((        0x03) << 24) | ((        0x07) << 20) | ((        0x0F) << 16) | (          0x3FF));
-            ~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Peripherie.c(148): warning: no newline at end of file [-Wnewline-eof]
-}
- ^
-Peripherie.c(140): warning: no previous prototype for function 'CAN2_TX_IRQHandler' [-Wmissing-prototypes]
-void CAN2_TX_IRQHandler (void) 
-     ^
-Peripherie.c(140): note: declare 'static' if the function is not intended to be used outside of this translation unit
-void CAN2_TX_IRQHandler (void) 
-^
-static 
-10 warnings generated.
-compiling Peripherie.c...
-linking...
-<<<<<<< HEAD
-Program Size: Code=856 RO-data=468 RW-data=0 ZI-data=1648  
-".\Objects\adc.axf" - 0 Error(s), 9 Warning(s).
-=======
-Program Size: Code=816 RO-data=468 RW-data=0 ZI-data=1672  
-".\Objects\adc.axf" - 0 Error(s), 14 Warning(s).
->>>>>>> CAN
+".\Objects\adc.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -157,14 +55,10 @@ Package Vendor: Keil
    * Component: Keil::Device:Startup:2.6.3
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f446xx.s
       Source file:   MDK\Device\Source\ARM\STM32F446xx_OPT.s
-      Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
-<<<<<<< HEAD
-      Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f446xx.s
       Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
-=======
->>>>>>> CAN
+      Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
