@@ -5,7 +5,7 @@
 
 
 volatile uint32_t msTicks;                        /* counts 1ms timeTicks     */
-volatile int16_t adcValue0, filteredIIRValue, transmitValue; 
+volatile int16_t transmitValue; 
 
 void Delay(uint32_t dlyTicks);
 void SysTick_Handler(void);
@@ -23,28 +23,21 @@ int main(void)
 	/*main loop*/
 	while(1)
 	{	
-		
-			filteredIIRValue = digitalIIRFilter(adcValue0);
-			transmitValue = digitalFIRFilter(filteredIIRValue);
-			if(transmitValue != 0)
-			{
-					CAN_TxRdy[1] = 0;				
-					/*High Byte*/
-					CAN_TxMsg[1].data[0] = (transmitValue>>8);
-					/*Low Byte*/
-					CAN_TxMsg[1].data[1] = transmitValue; 
-					/* transmit message */
-					wrMsgCAN2(&CAN_TxMsg[1]);               
-					
-					if(ENABLE_DEBUGGING_INTERFACE == 1)
-					{
-							/*High Byte*/
-							sendUSART2((transmitValue>>8));
-							/*Low Byte*/
-							sendUSART2(transmitValue);
-					}
-					Delay(100); 
-			}
+				
+				CAN_TxRdy = 0;				
+				/* save the value in the CAN array */
+				*((uint16_t *)CAN_TxMsg.data) = transmitValue;  //Pointer typecast: 16 Bit value is saved directly in the first two positions of the 8 Bit array																												
+				/* transmit message */
+				wrMsgCAN2(&CAN_TxMsg);               
+				
+				if(ENABLE_DEBUGGING_INTERFACE == 1)
+				{
+						/*High Byte*/
+						sendUSART2((transmitValue>>8));
+						/*Low Byte*/
+						sendUSART2(transmitValue);
+				}
+				Delay(100); 
 	}
 }
 
@@ -52,20 +45,29 @@ int main(void)
 void TIM2_IRQHandler(void){
 
 	static uint16_t adcValue1; 
+	static int32_t sum; 
+	static uint8_t counter; 
 	
 	TIM2->SR = 0; 													//Clear interrupt flag
 	GPIOA->ODR ^= (1<<0);	
 	
-	if(adcValue1 == 0)
+	if(GPIOA->ODR & (1<<0))
 	{
 		adcValue1 = ADC1->DR;
 	}
 	else
 	{
-		adcValue0 = adcValue1 - ADC1->DR;
-		adcValue1 = 0; 
+		sum += digitalIIRFilter((adcValue1 - ADC1->DR));
+		counter++; 
+			if(counter == 10)
+			{
+				transmitValue = sum/10; 
+				sum = 0; 
+				counter = 0; 
+			}
 	}
 	ADC1->CR2 |= (1<<30);								//Starts the adc conversion 
+
 }
 
 
