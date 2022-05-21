@@ -23,7 +23,7 @@
 /**
   * @brief  defines for digital IIR filter
   */
-#define k 4
+#define AMOUNT_BITS_IIRFILTER 4
 
 /**
   * @brief  define to enable USART2 in main.c
@@ -140,10 +140,5 @@ int16_t digitalIIRFilter(int16_t inputValue);
   */
 void initTIM2(void); 
 void TIM2_IRQHandler(void);
-
-
-void Delay(uint32_t dlyTicks);
-void SysTick_Handler(void);
-
 
 #endif

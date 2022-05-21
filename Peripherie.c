@@ -1,16 +1,30 @@
+/**
+  ******************************************************************************
+  * @file           : peripherie.c
+	* @author					: Dettling, Dominik 
+  * @brief          : File contains all necessary functions to maintain 
+	*										the LVDT hardware
+  ******************************************************************************
+  */
+/* Includes ------------------------------------------------------------------*/
 #include <stm32f4xx.h>
 #include "Peripherie.h"
 
+
+/* Defines -------------------------------------------------------------------*/
 /* CAN identifier type */
 #define CAN_ID_STD            ((uint32_t)0x00000000)  // Standard Id
 
 /* CAN remote transmission request */
 #define CAN_RTR_DATA          ((uint32_t)0x00000000)  //Data frame 
 
+/* Gobal Variables ----------------------------------------------------------*/
 /* CAN Tx variables */
 CAN_msg       CAN_TxMsg;                   //CAN message for sending                              
 uint32_t      CAN_TxRdy = 0;               //CAN tx mailbox ready to transmit a message
 
+
+/* Functions -----------------------------------------------------------------*/
 /*----------------------------------------------------------------------------
   CAN Peripherie functions
  *----------------------------------------------------------------------------*/
@@ -222,9 +236,9 @@ int16_t digitalIIRFilter(int16_t inputValue)
 	int32_t _2ny; 
 	
 	_2ny = inputValue + _2nw;
-	_2nw = inputValue + _2ny - (_2ny>>k);
+	_2nw = inputValue + _2ny - (_2ny>>AMOUNT_BITS_IIRFILTER);
 	
-	return (_2ny>>(k+1)); 
+	return (_2ny>>(AMOUNT_BITS_IIRFILTER+1)); 
 }
 
 /*----------------------------------------------------------------------------

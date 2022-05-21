@@ -153,30 +153,15 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>adcValue0,0x10</ItemText>
+          <ItemText>adcValue1,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>adcValue1,0x0A</ItemText>
+          <ItemText>sum,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>summe,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>3</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>test,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>4</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>adcValue0,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>5</count>
           <WinNumber>1</WinNumber>
           <ItemText>transmitValue,0x0A</ItemText>
         </Ww>
